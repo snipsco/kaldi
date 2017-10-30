@@ -71,7 +71,7 @@ void SingleUtteranceNnet3Decoder::GetBestPath(bool end_of_utterance,
   decoder_.GetBestPath(best_path, end_of_utterance);
 }
 
-bool SingleUtteranceNnet3Decoder::EndpointDetected(
+int32 SingleUtteranceNnet3Decoder::EndpointDetected(
     const OnlineEndpointConfig &config) {
   BaseFloat output_frame_shift =
       input_feature_frame_shift_in_seconds_ *

@@ -284,7 +284,7 @@ class SingleUtteranceNnet2DecoderThreaded {
 
   /// This function calls EndpointDetected from online-endpoint.h,
   /// with the required arguments.
-  bool EndpointDetected(const OnlineEndpointConfig &config);
+  int32 EndpointDetected(const OnlineEndpointConfig &config);
 
   /// Outputs the adaptation state of the feature pipeline to "adaptation_state".  This
   /// mostly stores stats for iVector estimation, and will generally be called at the

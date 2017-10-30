@@ -307,7 +307,7 @@ SingleUtteranceGmmDecoder::~SingleUtteranceGmmDecoder() {
 }
 
 
-bool SingleUtteranceGmmDecoder::EndpointDetected(
+int32 SingleUtteranceGmmDecoder::EndpointDetected(
     const OnlineEndpointConfig &config) {
   const TransitionModel &tmodel = models_.GetTransitionModel();
   return kaldi::EndpointDetected(config, tmodel,

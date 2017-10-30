@@ -639,7 +639,7 @@ bool SingleUtteranceNnet2DecoderThreaded::RunDecoderSearchInternal() {
   }
 }
 
-bool SingleUtteranceNnet2DecoderThreaded::EndpointDetected(
+int32 SingleUtteranceNnet2DecoderThreaded::EndpointDetected(
     const OnlineEndpointConfig &config) {
   std::lock_guard<std::mutex> lock(decoder_mutex_);
   return kaldi::EndpointDetected(config, tmodel_,

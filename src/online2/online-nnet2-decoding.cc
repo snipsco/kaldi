@@ -69,7 +69,7 @@ void SingleUtteranceNnet2Decoder::GetBestPath(bool end_of_utterance,
   decoder_.GetBestPath(best_path, end_of_utterance);
 }
 
-bool SingleUtteranceNnet2Decoder::EndpointDetected(
+int32 SingleUtteranceNnet2Decoder::EndpointDetected(
     const OnlineEndpointConfig &config) {
   return kaldi::EndpointDetected(config, tmodel_,
                                  feature_pipeline_->FrameShiftInSeconds(),

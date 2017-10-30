@@ -42,7 +42,7 @@ static bool RuleActivated(const OnlineEndpointRule &rule,
   return ans;
 }
 
-bool EndpointDetected(const OnlineEndpointConfig &config,
+int32 EndpointDetected(const OnlineEndpointConfig &config,
                       int32 num_frames_decoded,
                       int32 trailing_silence_frames,
                       BaseFloat frame_shift_in_seconds,
@@ -54,23 +54,24 @@ bool EndpointDetected(const OnlineEndpointConfig &config,
 
   if (RuleActivated(config.rule1, "rule1",
                     trailing_silence, final_relative_cost, utterance_length))
-    return true;
+    return 1;
   if (RuleActivated(config.rule2, "rule2",
                     trailing_silence, final_relative_cost, utterance_length))
-    return true;
+    return 2;
   if (RuleActivated(config.rule3, "rule3",
                     trailing_silence, final_relative_cost, utterance_length))
-    return true;
+    return 3;
   if (RuleActivated(config.rule4, "rule4",
                     trailing_silence, final_relative_cost, utterance_length))
-    return true;
+    return 4;
   if (RuleActivated(config.rule5, "rule5",
                     trailing_silence, final_relative_cost, utterance_length))
-    return true;
-  return false;
+    return 5;
+  return 0;
 }
 
 int32 TrailingSilenceLength(const TransitionModel &tmodel,
+                            bool use_final_probs,
                             const std::string &silence_phones_str,
                             const LatticeFasterOnlineDecoder &decoder) {
   std::vector<int32> silence_phones;
@@ -84,7 +85,6 @@ int32 TrailingSilenceLength(const TransitionModel &tmodel,
                "Endpointing requires nonempty --endpoint.silence-phones option");
   ConstIntegerSet<int32> silence_set(silence_phones);
 
-  bool use_final_probs = false;
   LatticeFasterOnlineDecoder::BestPathIterator iter =
       decoder.BestPathEnd(use_final_probs, NULL);
   int32 num_silence_frames = 0;
@@ -104,7 +104,7 @@ int32 TrailingSilenceLength(const TransitionModel &tmodel,
   return num_silence_frames;
 }
 
-bool EndpointDetected(
+int32 EndpointDetected(
     const OnlineEndpointConfig &config,
     const TransitionModel &tmodel,
     BaseFloat frame_shift_in_seconds,
@@ -115,6 +115,7 @@ bool EndpointDetected(
 
   int32 num_frames_decoded = decoder.NumFramesDecoded(),
       trailing_silence_frames = TrailingSilenceLength(tmodel,
+                                                      config.use_final_probs,
                                                       config.silence_phones,
                                                       decoder);
 
